@@ -11,4 +11,5 @@ public interface UserService {
     Optional<User> getUserById(Long id);
     Optional<User> updateUser(Long id, UserUpdateDTO user);
     boolean deleteUser(Long id);
+    Optional<User> createUser(User user);
 }

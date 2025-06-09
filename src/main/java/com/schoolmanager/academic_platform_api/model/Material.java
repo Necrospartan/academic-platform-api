@@ -30,6 +30,6 @@ public class Material {
     private Subject subject;
 
     @OneToOne
-    @JoinColumn(name = "profesor_id")
-    private Profesor profesor;
+    @JoinColumn(name = "professor_id")
+    private Professor professor;
 }

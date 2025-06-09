@@ -24,8 +24,8 @@ public class Subject {
     private String name;
 
     @OneToOne
-    @JoinColumn(name = "profesor_id")
-    private Profesor profesor;
+    @JoinColumn(name = "professor_id")
+    private Professor professor;
 
     @OneToOne
     @JoinColumn(name = "course_id")

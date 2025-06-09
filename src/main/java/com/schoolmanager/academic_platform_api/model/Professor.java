@@ -14,11 +14,11 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "profesor")
+@Table(name = "professor")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Profesor {
+public class Professor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +28,6 @@ public class Profesor {
 
     private String specialty;
 
-    @OneToMany(mappedBy = "profesor")
+    @OneToMany(mappedBy = "professor")
     private List<Subject> Subject;
 }

@@ -50,4 +50,10 @@ public class UserServiceImpl implements UserService{
             return false;
         }
     }
+
+    @Override
+    @Transactional
+    public Optional<User> createUser(User user) {
+        return Optional.of(userRepository.save(user));
+    }
 }
