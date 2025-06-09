@@ -1,35 +1,33 @@
-package com.schoolmanager.academic_platform_api.entities;
+package com.schoolmanager.academic_platform_api.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 @Entity
-@Table(name = "enrollments")
+@Table(name = "profesor")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Enrollment {
+public class Profesor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @OneToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @OneToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
+    private String specialty;
 
-    @OneToOne
-    @JoinColumn(name = "academic_period_id")
-    private AcademicPeriod academicPeriod;
+    @OneToMany(mappedBy = "profesor")
+    private List<Subject> Subject;
 }

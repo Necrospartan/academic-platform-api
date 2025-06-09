@@ -1,4 +1,4 @@
-package com.schoolmanager.academic_platform_api.entities;
+package com.schoolmanager.academic_platform_api.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,20 +14,23 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "profesor")
+@Table(name = "students")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Profesor {
+public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+    
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    private String specialty;
+    @OneToOne(mappedBy = "student")
+    private Enrollment enrollment;
 
-    @OneToMany(mappedBy = "profesor")
-    private List<Subject> Subject;
+    @OneToMany(mappedBy = "student")
+    private List<Grade> grades;
+
 }

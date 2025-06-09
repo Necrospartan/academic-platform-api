@@ -1,4 +1,4 @@
-package com.schoolmanager.academic_platform_api.entities;
+package com.schoolmanager.academic_platform_api.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,27 +12,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "grades")
+@Table(name = "subjects")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Grade {
+public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Float value;
-    private String remarks;
+    private String name;
 
     @OneToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+    @JoinColumn(name = "profesor_id")
+    private Profesor profesor;
 
     @OneToOne
-    @JoinColumn(name = "subject_id")
-    private Subject subject;
-
-    @OneToOne
-    @JoinColumn(name = "academic_period_id")
-    private AcademicPeriod academicPeriod;
+    @JoinColumn(name = "course_id")
+    private Course course;
 }

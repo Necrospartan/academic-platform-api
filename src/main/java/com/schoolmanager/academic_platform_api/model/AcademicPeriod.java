@@ -1,33 +1,27 @@
-package com.schoolmanager.academic_platform_api.entities;
+package com.schoolmanager.academic_platform_api.model;
+
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "subjects")
+@Table(name = "academic_period")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Subject {
+public class AcademicPeriod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-
-    @OneToOne
-    @JoinColumn(name = "profesor_id")
-    private Profesor profesor;
-
-    @OneToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
+    private LocalDate startDate;
+    private LocalDate endDate;
 }

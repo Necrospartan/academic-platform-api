@@ -1,4 +1,4 @@
-package com.schoolmanager.academic_platform_api.entities;
+package com.schoolmanager.academic_platform_api.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
