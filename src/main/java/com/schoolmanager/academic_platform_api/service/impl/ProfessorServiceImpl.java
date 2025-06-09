@@ -7,9 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.schoolmanager.academic_platform_api.dto.ProfessorCreatedDTO;
 import com.schoolmanager.academic_platform_api.dto.ProfessorResponse;
 import com.schoolmanager.academic_platform_api.model.Professor;
+import com.schoolmanager.academic_platform_api.model.Role;
 import com.schoolmanager.academic_platform_api.model.Subject;
 import com.schoolmanager.academic_platform_api.model.User;
 import com.schoolmanager.academic_platform_api.repository.ProfessorRepository;
+import com.schoolmanager.academic_platform_api.repository.RoleRepository;
 import com.schoolmanager.academic_platform_api.service.ProfessorService;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +23,8 @@ public class ProfessorServiceImpl implements ProfessorService{
     private ProfessorRepository professorRepository;
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private RoleRepository roleRepository;
 
     public ProfessorResponse mapToResponse(Professor professor) {
         ProfessorResponse response = new ProfessorResponse();
@@ -59,7 +63,11 @@ public class ProfessorServiceImpl implements ProfessorService{
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
-        user.setRole("PROFESOR");
+
+        Role role = roleRepository.findByName("PROFESOR")
+        .orElseThrow(() -> new RuntimeException("Role not found"));
+        user.setRole(role);
+        
         User savedUser = userService.createUser(user).orElseThrow(() -> new RuntimeException("User creation failed"));
         // Crear profesor
         Professor professor = new Professor();

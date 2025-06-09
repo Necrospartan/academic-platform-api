@@ -1,5 +1,7 @@
 package com.schoolmanager.academic_platform_api.dto;
 
+import com.schoolmanager.academic_platform_api.model.Role;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,5 +14,5 @@ public class ProfessorResponse {
     // User fields
     private String userName;
     private String userEmail;
-    private String userRole;
+    private Role userRole;
 }
