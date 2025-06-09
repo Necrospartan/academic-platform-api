@@ -1,6 +1,5 @@
 package com.schoolmanager.academic_platform_api.validation;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.persistence.EntityManager;
