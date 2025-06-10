@@ -2,6 +2,7 @@ package com.schoolmanager.academic_platform_api.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,8 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional(readOnly = true)
     public List<UserResponse> getAllUsers() {
-        return userRepository.findAll().stream().map(UserResponse::new).toList();
+        return userRepository.findAll().stream().map(UserResponse::new)
+        .collect(Collectors.toList());
     }
 
     @Override

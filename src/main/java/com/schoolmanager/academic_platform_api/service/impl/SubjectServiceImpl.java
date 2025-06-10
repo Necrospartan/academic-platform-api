@@ -15,6 +15,7 @@ import com.schoolmanager.academic_platform_api.repository.SubjectRepository;
 import com.schoolmanager.academic_platform_api.service.SubjectService;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SubjectServiceImpl implements SubjectService{
@@ -30,7 +31,7 @@ public class SubjectServiceImpl implements SubjectService{
     public List<SubjectResponse> getAllSubject() {
         return subjectRepository.findAll().stream()
             .map(SubjectResponse::new)
-            .collect(java.util.stream.Collectors.toList());
+            .collect(Collectors.toList());
     }
 
     @Override

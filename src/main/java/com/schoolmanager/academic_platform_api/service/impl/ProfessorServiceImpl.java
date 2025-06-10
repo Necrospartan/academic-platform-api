@@ -26,20 +26,6 @@ public class ProfessorServiceImpl implements ProfessorService{
     @Autowired
     private RoleRepository roleRepository;
 
-    // public ProfessorResponse mapToResponse(Professor professor) {
-    //     ProfessorResponse response = new ProfessorResponse();
-    //     response.setId(professor.getId());
-    //     response.setSpecialty(professor.getSpecialty());
-
-    //     if (professor.getUser() != null) {
-    //         response.setUserName(professor.getUser().getName());
-    //         response.setUserEmail(professor.getUser().getEmail());
-    //         response.setUserRole(professor.getUser().getRole());
-    //     }
-
-    //     return response;
-    // }
-
     @Override
     @Transactional(readOnly = true)
     public List<ProfessorResponse> getAllProfessorResponses() {

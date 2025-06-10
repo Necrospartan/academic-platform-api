@@ -10,6 +10,7 @@ import com.schoolmanager.academic_platform_api.repository.AcademicPeriodReposito
 import com.schoolmanager.academic_platform_api.service.AcademicPeriodService;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AcademicPeriodServiceImpl implements AcademicPeriodService{
@@ -20,7 +21,8 @@ public class AcademicPeriodServiceImpl implements AcademicPeriodService{
     @Override
     @Transactional(readOnly = true)
     public List<AcademicPeriod> getAllAcademicPeriods() {
-        return academicPeriodRepository.findAll();
+        return academicPeriodRepository.findAll().stream()
+        .collect(Collectors.toList());
     }
 
     @Override

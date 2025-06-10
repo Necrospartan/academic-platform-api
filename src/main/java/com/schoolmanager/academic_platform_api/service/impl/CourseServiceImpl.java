@@ -12,6 +12,7 @@ import com.schoolmanager.academic_platform_api.repository.CourseRepository;
 import com.schoolmanager.academic_platform_api.service.CourseService;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService{
@@ -23,7 +24,8 @@ public class CourseServiceImpl implements CourseService{
     @Override
     @Transactional(readOnly = true)
     public List<Course> getAllCourseResponses() {
-        return courseRepository.findAll().stream().toList();
+        return courseRepository.findAll().stream()
+        .collect(Collectors.toList());
     }
 
     @Override
