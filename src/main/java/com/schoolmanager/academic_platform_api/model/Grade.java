@@ -33,6 +33,10 @@ public class Grade {
     private Subject subject;
 
     @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    @ManyToOne
     @JoinColumn(name = "academic_period_id")
     private AcademicPeriod academicPeriod;
 }

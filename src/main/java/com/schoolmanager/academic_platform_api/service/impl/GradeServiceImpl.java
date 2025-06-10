@@ -12,9 +12,11 @@ import com.schoolmanager.academic_platform_api.dto.GradeCreatedDTO;
 import com.schoolmanager.academic_platform_api.dto.GradeUpdateDTO;
 import com.schoolmanager.academic_platform_api.dto.Response.GradeResponse;
 import com.schoolmanager.academic_platform_api.model.AcademicPeriod;
+import com.schoolmanager.academic_platform_api.model.Course;
 import com.schoolmanager.academic_platform_api.model.Grade;
 import com.schoolmanager.academic_platform_api.model.Student;
 import com.schoolmanager.academic_platform_api.model.Subject;
+import com.schoolmanager.academic_platform_api.repository.CourseRepository;
 import com.schoolmanager.academic_platform_api.repository.GradeRepository;
 import com.schoolmanager.academic_platform_api.repository.StudentRepository;
 import com.schoolmanager.academic_platform_api.repository.SubjectRepository;
@@ -28,18 +30,22 @@ public class GradeServiceImpl implements GradeService{
     private StudentRepository studentRepository;
     @Autowired
     private SubjectRepository subjectRepository;
+    @Autowired
+    private CourseRepository courseRepository;
 
     @Override
     @Transactional
     public Optional<GradeResponse> createGrade(GradeCreatedDTO grade) {
         Optional<Student> student = studentRepository.findById(grade.getStudentId());
         Optional<Subject> subject = subjectRepository.findById(grade.getSubjectId());
-        Optional<AcademicPeriod> academicPeriod = Optional.of(subject.get().getCourse().getAcademicPeriod());
+        Optional<Course> course = courseRepository.findById(subject.get().getCourse().getId());
+        Optional<AcademicPeriod> academicPeriod = Optional.of(course.get().getAcademicPeriod());
 
-        if (student.isPresent() && subject.isPresent() && academicPeriod.isPresent()) {
+        if (student.isPresent() && subject.isPresent() && academicPeriod.isPresent() && course.isPresent()) {
             Grade newGrade = new Grade();
             newGrade.setStudent(student.get());
             newGrade.setSubject(subject.get());
+            newGrade.setCourse(course.get());
             newGrade.setAcademicPeriod(academicPeriod.get());
             newGrade.setValue(grade.getValue());
             newGrade.setRemarks(grade.getRemarks());

@@ -16,7 +16,7 @@ import com.schoolmanager.academic_platform_api.service.ReportService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/report")
+@RequestMapping("/api/reports")
 @RequiredArgsConstructor
 public class ReportController {
     private ReportService reportService;
