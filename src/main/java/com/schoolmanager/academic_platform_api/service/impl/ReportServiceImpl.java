@@ -82,7 +82,7 @@ public class ReportServiceImpl implements ReportService{
             Student student = grade.getStudent();
             String subjectName = grade.getSubject().getName();
             Float value = grade.getValue();
-s
+
             studentGradesMap
                 .computeIfAbsent(student, _ -> new HashMap<>())
                 .computeIfAbsent(subjectName, _ -> new ArrayList<>())
