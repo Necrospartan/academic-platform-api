@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.schoolmanager.academic_platform_api.dto.ProfessorCreatedDTO;
-import com.schoolmanager.academic_platform_api.dto.ProfessorResponse;
+import com.schoolmanager.academic_platform_api.dto.Response.ProfessorResponse;
 import com.schoolmanager.academic_platform_api.model.Professor;
 import com.schoolmanager.academic_platform_api.model.Role;
 import com.schoolmanager.academic_platform_api.model.Subject;
@@ -26,33 +26,33 @@ public class ProfessorServiceImpl implements ProfessorService{
     @Autowired
     private RoleRepository roleRepository;
 
-    public ProfessorResponse mapToResponse(Professor professor) {
-        ProfessorResponse response = new ProfessorResponse();
-        response.setId(professor.getId());
-        response.setSpecialty(professor.getSpecialty());
+    // public ProfessorResponse mapToResponse(Professor professor) {
+    //     ProfessorResponse response = new ProfessorResponse();
+    //     response.setId(professor.getId());
+    //     response.setSpecialty(professor.getSpecialty());
 
-        if (professor.getUser() != null) {
-            response.setUserName(professor.getUser().getName());
-            response.setUserEmail(professor.getUser().getEmail());
-            response.setUserRole(professor.getUser().getRole());
-        }
+    //     if (professor.getUser() != null) {
+    //         response.setUserName(professor.getUser().getName());
+    //         response.setUserEmail(professor.getUser().getEmail());
+    //         response.setUserRole(professor.getUser().getRole());
+    //     }
 
-        return response;
-    }
+    //     return response;
+    // }
 
     @Override
     @Transactional(readOnly = true)
     public List<ProfessorResponse> getAllProfessorResponses() {
         return professorRepository.findAll().stream()
-                .map(this::mapToResponse)
-                .toList();
+        .map(ProfessorResponse::new)
+        .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<ProfessorResponse> getProfessorResponseById(Long id) {
         return professorRepository.findById(id)
-        .map(this::mapToResponse);
+        .map(ProfessorResponse::new);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.schoolmanager.academic_platform_api.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.schoolmanager.academic_platform_api.dto.ProfessorCreatedDTO;
-import com.schoolmanager.academic_platform_api.dto.ProfessorResponse;
+import com.schoolmanager.academic_platform_api.dto.Response.ProfessorResponse;
 import com.schoolmanager.academic_platform_api.model.Professor;
 import com.schoolmanager.academic_platform_api.service.ProfessorService;
 
@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +41,10 @@ public class ProfessorController {
     }
 
     @PostMapping
-    public ResponseEntity<ProfessorResponse> createProfessor(@RequestBody @Valid ProfessorCreatedDTO request) {
-        Professor professor = professorService.createProfessor(request)
-            .orElseThrow(() -> new RuntimeException("Failed to create professor"));
-
-        return ResponseEntity.ok(professorService.mapToResponse(professor));
+    public ResponseEntity<Professor> createProfessor(@RequestBody @Valid ProfessorCreatedDTO request) {
+        Optional<Professor> professor = professorService.createProfessor(request);
+        return professor.map(ResponseEntity::ok)
+        .orElse(ResponseEntity.badRequest().build());
     }
 
     @GetMapping("/{id}/assignature")

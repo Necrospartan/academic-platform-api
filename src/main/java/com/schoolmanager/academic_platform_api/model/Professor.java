@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "professor")
 @Getter
@@ -24,6 +26,7 @@ public class Professor {
     private Long id;
     @OneToOne
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
 
     private String specialty;

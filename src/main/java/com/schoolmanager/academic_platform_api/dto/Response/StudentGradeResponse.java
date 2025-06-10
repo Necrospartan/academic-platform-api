@@ -1,4 +1,4 @@
-package com.schoolmanager.academic_platform_api.dto;
+package com.schoolmanager.academic_platform_api.dto.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

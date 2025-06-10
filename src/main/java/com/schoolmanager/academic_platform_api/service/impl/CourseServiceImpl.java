@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.schoolmanager.academic_platform_api.dto.CourseCreatedDTO;
-import com.schoolmanager.academic_platform_api.dto.CourseResponse;
 import com.schoolmanager.academic_platform_api.model.AcademicPeriod;
 import com.schoolmanager.academic_platform_api.model.Course;
 import com.schoolmanager.academic_platform_api.repository.AcademicPeriodRepository;
@@ -23,14 +22,14 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<CourseResponse> getAllCourseResponses() {
-        return courseRepository.findAll().stream().map(CourseResponse::new).toList();
+    public List<Course> getAllCourseResponses() {
+        return courseRepository.findAll().stream().toList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<CourseResponse> getCourseResponsesByProfessor(Long id) {
-        return courseRepository.findById(id).map(CourseResponse::new);
+    public Optional<Course> getCourseResponsesById(Long id) {
+        return courseRepository.findById(id);
     }
 
     @Override

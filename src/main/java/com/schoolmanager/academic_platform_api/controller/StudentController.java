@@ -1,6 +1,7 @@
 package com.schoolmanager.academic_platform_api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.schoolmanager.academic_platform_api.dto.StudentCreatedDTO;
-import com.schoolmanager.academic_platform_api.dto.StudentGradeResponse;
-import com.schoolmanager.academic_platform_api.dto.StudentResponse;
-import com.schoolmanager.academic_platform_api.model.Student;
+import com.schoolmanager.academic_platform_api.dto.Response.StudentGradeResponse;
+import com.schoolmanager.academic_platform_api.dto.Response.StudentResponse;
 import com.schoolmanager.academic_platform_api.service.StudentService;
 
 import jakarta.validation.Valid;
@@ -41,9 +41,9 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<StudentResponse> createStudent(@RequestBody @Valid StudentCreatedDTO request) {
-        Student student = studentService.createStudent(request)
-            .orElseThrow(() -> new RuntimeException("Failed to create student"));
-        return ResponseEntity.ok(studentService.mapToResponse(student));
+        Optional<StudentResponse> student = studentService.createStudent(request);
+        return student.map(ResponseEntity::ok)
+        .orElse(ResponseEntity.badRequest().build());
     }
 
     @GetMapping("/{id}/notes")

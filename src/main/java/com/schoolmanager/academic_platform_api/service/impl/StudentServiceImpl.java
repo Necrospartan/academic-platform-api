@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.schoolmanager.academic_platform_api.dto.StudentCreatedDTO;
-import com.schoolmanager.academic_platform_api.dto.StudentGradeResponse;
-import com.schoolmanager.academic_platform_api.dto.StudentResponse;
+import com.schoolmanager.academic_platform_api.dto.Response.StudentGradeResponse;
+import com.schoolmanager.academic_platform_api.dto.Response.StudentResponse;
 import com.schoolmanager.academic_platform_api.model.Role;
 import com.schoolmanager.academic_platform_api.model.Student;
 import com.schoolmanager.academic_platform_api.model.User;
@@ -25,38 +25,38 @@ public class StudentServiceImpl implements StudentService {
     private UserServiceImpl userService;
     private RoleRepository roleRepository;
 
-    public StudentResponse mapToResponse(Student student) {
-        StudentResponse response = new StudentResponse();
-        response.setId(student.getId());
-        //Faltan datos al response
+    // public StudentResponse mapToResponse(Student student) {
+    //     StudentResponse response = new StudentResponse();
+    //     response.setId(student.getId());
+    //     //Faltan datos al response
 
-        if (student.getUser() != null) {
-            response.setUserName(student.getUser().getName());
-            response.setUserEmail(student.getUser().getEmail());
-            response.setUserRole(student.getUser().getRole());
-        }
+    //     if (student.getUser() != null) {
+    //         response.setUserName(student.getUser().getName());
+    //         response.setUserEmail(student.getUser().getEmail());
+    //         response.setUserRole(student.getUser().getRole());
+    //     }
 
-        return response;
-    }
+    //     return response;
+    // }
 
     @Override
     @Transactional(readOnly = true)
     public List<StudentResponse> getAllStudentResponses() {
         return studentRepository.findAll().stream()
-                .map(this::mapToResponse)
-                .toList();
+            .map(StudentResponse::new)
+            .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<StudentResponse> getStudentResponseById(Long id) {
         return studentRepository.findById(id)
-                .map(this::mapToResponse);
+            .map(StudentResponse::new);
     }
 
     @Override
     @Transactional
-    public Optional<Student> createStudent(StudentCreatedDTO student) {
+    public Optional<StudentResponse> createStudent(StudentCreatedDTO student) {
         // Crear usuario
         User user = new User();
         user.setName(student.getName());
@@ -73,7 +73,7 @@ public class StudentServiceImpl implements StudentService {
         Student newStudent = new Student();
         newStudent.setUser(savedUser);
 
-        return Optional.of(studentRepository.save(newStudent));
+        return Optional.of(new StudentResponse(studentRepository.save(newStudent)));
     }
 
     @Override

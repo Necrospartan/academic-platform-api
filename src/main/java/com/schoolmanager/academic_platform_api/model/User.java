@@ -1,5 +1,8 @@
 package com.schoolmanager.academic_platform_api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,11 +26,12 @@ public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String name;
     @Column(unique = true)
     private String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     
     @ManyToOne(fetch = FetchType.EAGER)
@@ -35,9 +39,11 @@ public class User {
     private Role role;
 
     @OneToOne(mappedBy = "user")
+    @JsonBackReference
     private Student student;
 
     @OneToOne(mappedBy = "user")
+    @JsonBackReference
     private Professor professor;
 
 }
