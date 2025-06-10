@@ -3,7 +3,7 @@ package com.schoolmanager.academic_platform_api.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.schoolmanager.academic_platform_api.dto.UserUpdateDTO;
-import com.schoolmanager.academic_platform_api.model.User;
+import com.schoolmanager.academic_platform_api.dto.Response.UserResponse;
 import com.schoolmanager.academic_platform_api.service.UserService;
 
 import jakarta.validation.Valid;
@@ -29,19 +29,19 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
         return userService.getUserById(id)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO user) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO user) {
         return userService.updateUser(id, user)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());

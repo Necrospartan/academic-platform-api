@@ -13,5 +13,4 @@ public interface StudentService {
     Optional<StudentResponse> getStudentResponseById(Long id);
     Optional<StudentResponse> createStudent(StudentCreatedDTO student);
     List<StudentGradeResponse> getNotesByStudent(Long id);
-    // public StudentResponse mapToResponse(Student student);
 }

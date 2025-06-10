@@ -38,6 +38,7 @@ public class StudentCreatedDTO {
     @NotBlank(message = "Course ID is required")
     @ExistsInDatabase(domainClass = Course.class, fieldName = "id", message = "Course does not exist")
     private Long courseId;
+    
     @NotBlank(message = "Period ID is required")
     @ExistsInDatabase(domainClass = Period.class, fieldName = "id", message = "Period does not exist")
     private Long periodId;

@@ -1,7 +1,6 @@
 package com.schoolmanager.academic_platform_api.dto;
 
-import com.schoolmanager.academic_platform_api.validation.ExistsProfessorId;
-import com.schoolmanager.academic_platform_api.validation.ExistsSubjectId;
+import com.schoolmanager.academic_platform_api.validation.ExistsInDatabase;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,12 +23,12 @@ public class MaterialCreatedDTO {
     @Size(min = 2, max = 200)
     private String fileUrl;
     
-    @ExistsSubjectId
+    @ExistsInDatabase(domainClass = SubjectCreatedDTO.class, fieldName = "id", message = "Subject does not exist")
     @NotNull(message = "Subject ID is required")
     private Long subjectId;
 
     @NotNull(message = "Professor ID is required")
-    @ExistsProfessorId
+    @ExistsInDatabase(domainClass = ProfessorCreatedDTO.class, fieldName = "id", message = "Professor does not exist")
     private Long professorId;
 
 }

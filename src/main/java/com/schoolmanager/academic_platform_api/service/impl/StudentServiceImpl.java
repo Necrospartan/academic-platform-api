@@ -7,9 +7,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.schoolmanager.academic_platform_api.dto.StudentCreatedDTO;
 import com.schoolmanager.academic_platform_api.dto.Response.StudentGradeResponse;
 import com.schoolmanager.academic_platform_api.dto.Response.StudentResponse;
+import com.schoolmanager.academic_platform_api.model.AcademicPeriod;
+import com.schoolmanager.academic_platform_api.model.Course;
+import com.schoolmanager.academic_platform_api.model.Enrollment;
 import com.schoolmanager.academic_platform_api.model.Role;
 import com.schoolmanager.academic_platform_api.model.Student;
 import com.schoolmanager.academic_platform_api.model.User;
+import com.schoolmanager.academic_platform_api.repository.AcademicPeriodRepository;
+import com.schoolmanager.academic_platform_api.repository.CourseRepository;
+import com.schoolmanager.academic_platform_api.repository.EnrollmentRepository;
 import com.schoolmanager.academic_platform_api.repository.RoleRepository;
 import com.schoolmanager.academic_platform_api.repository.StudentRepository;
 import com.schoolmanager.academic_platform_api.service.StudentService;
@@ -25,19 +31,12 @@ public class StudentServiceImpl implements StudentService {
     private UserServiceImpl userService;
     private RoleRepository roleRepository;
 
-    // public StudentResponse mapToResponse(Student student) {
-    //     StudentResponse response = new StudentResponse();
-    //     response.setId(student.getId());
-    //     //Faltan datos al response
-
-    //     if (student.getUser() != null) {
-    //         response.setUserName(student.getUser().getName());
-    //         response.setUserEmail(student.getUser().getEmail());
-    //         response.setUserRole(student.getUser().getRole());
-    //     }
-
-    //     return response;
-    // }
+    @Autowired
+    private EnrollmentRepository enrollmentRepository;
+    @Autowired
+    private CourseRepository courseRepository;
+    @Autowired
+    private AcademicPeriodRepository academicPeriodRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -63,17 +62,27 @@ public class StudentServiceImpl implements StudentService {
         user.setEmail(student.getEmail());
         user.setPassword(student.getPassword());
 
-        Role role = roleRepository.findByName("ESTUDIANTE")
-                .orElseThrow(() -> new RuntimeException("Role not found"));
-        user.setRole(role);
+        Optional<Role> role = roleRepository.findByName("ESTUDIANTE");
 
-        User savedUser = userService.createUser(user).orElseThrow(() -> new RuntimeException("User creation failed"));
+        Optional<AcademicPeriod> academicPeriod = academicPeriodRepository.findById(student.getPeriodId());
+        Optional<Course> course = courseRepository.findById(student.getCourseId());
 
-        // Crear estudiante
-        Student newStudent = new Student();
-        newStudent.setUser(savedUser);
-
-        return Optional.of(new StudentResponse(studentRepository.save(newStudent)));
+        if (role.isPresent() && academicPeriod.isPresent() && course.isPresent()) {
+            user.setRole(role.get());
+            Optional<User> savedUser = userService.createUser(user);
+            // Crear estudiante
+            Student newStudent = new Student();
+            newStudent.setUser(savedUser.get());
+            Student saveStudent = studentRepository.save(newStudent);
+            // Crear matricula
+            Enrollment enrollment = new Enrollment();
+            enrollment.setStudent(saveStudent);
+            enrollment.setAcademicPeriod(academicPeriod.get());
+            enrollment.setCourse(course.get());
+            enrollmentRepository.save(enrollment);
+            return Optional.of(new StudentResponse(saveStudent));
+        }
+        return Optional.empty();
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.schoolmanager.academic_platform_api.dto.UserUpdateDTO;
+import com.schoolmanager.academic_platform_api.dto.Response.UserResponse;
 import com.schoolmanager.academic_platform_api.model.User;
 import com.schoolmanager.academic_platform_api.repository.UserRepository;
 import com.schoolmanager.academic_platform_api.service.UserService;
@@ -20,24 +21,28 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponse> getAllUsers() {
+        return userRepository.findAll().stream().map(UserResponse::new).toList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public Optional<UserResponse> getUserById(Long id) {
+        return userRepository.findById(id).map(UserResponse::new);
     }
 
     @Override
-    public Optional<User> updateUser(Long id, UserUpdateDTO user) {
-        return userRepository.findById(id)
-        .map(existingUser -> {
+    public Optional<UserResponse> updateUser(Long id, UserUpdateDTO user) {
+        User existingUser = userRepository.findById(id).orElse(null);
+        if(existingUser != null) {
             existingUser.setName(user.getName());
             existingUser.setEmail(user.getEmail());
-            return userRepository.save(existingUser);
-        });
+            userRepository.save(existingUser);
+            return Optional.of(new UserResponse(existingUser));
+        } else {
+            return Optional.empty();
+        }
+        
     }
 
     @Override
@@ -54,6 +59,10 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public Optional<User> createUser(User user) {
-        return Optional.of(userRepository.save(user));
+        if(userRepository.existsByEmail(user.getEmail())) {
+            return Optional.empty();
+        } else {
+            return Optional.of(userRepository.save(user));
+        }
     }
 }
