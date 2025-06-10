@@ -1,7 +1,5 @@
 package com.schoolmanager.academic_platform_api.dto.Response;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FinalCourseReportResponse {
+public class AverageGradeResponse {
     private String courseName;
-    private String academicPeriod;
-    private List<StudentFinalReportResponse> students;
+    private String subjectName;
+    private double averageGrade;
 }
