@@ -29,6 +29,7 @@ public class StudentServiceImpl implements StudentService {
     private StudentRepository studentRepository;
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
     private RoleRepository roleRepository;
 
     @Autowired

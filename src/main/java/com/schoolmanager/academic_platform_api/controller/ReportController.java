@@ -2,6 +2,7 @@ package com.schoolmanager.academic_platform_api.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/reports")
 @RequiredArgsConstructor
 public class ReportController {
+    @Autowired
     private ReportService reportService;
 
     @GetMapping("/average-grades")
@@ -31,8 +33,8 @@ public class ReportController {
         return ResponseEntity.ok(reportService.getGradeHistoryByStudent(id));
     }
 
-    @GetMapping("/final-report/{courseId}")
-    public ResponseEntity<FinalCourseReportResponse> getFinalCourseReport(@PathVariable Long cursoId) {
-        return ResponseEntity.ok(reportService.getFinalReportByCourse(cursoId));
+    @GetMapping("/final-report/{id}")
+    public ResponseEntity<FinalCourseReportResponse> getFinalCourseReport(@PathVariable Long id) {
+        return ResponseEntity.ok(reportService.getFinalReportByCourse(id));
     }
 }

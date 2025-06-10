@@ -1,15 +1,15 @@
 package com.schoolmanager.academic_platform_api.dto;
 
-import java.time.Period;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.schoolmanager.academic_platform_api.model.AcademicPeriod;
 import com.schoolmanager.academic_platform_api.model.Course;
 import com.schoolmanager.academic_platform_api.validation.ExistsInDatabase;
 import com.schoolmanager.academic_platform_api.validation.UniqueEmail;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -35,11 +35,11 @@ public class StudentCreatedDTO {
     )
     private String password;
 
-    @NotBlank(message = "Course ID is required")
+    @NotNull(message = "Course ID is required")
     @ExistsInDatabase(domainClass = Course.class, fieldName = "id", message = "Course does not exist")
     private Long courseId;
     
-    @NotBlank(message = "Period ID is required")
-    @ExistsInDatabase(domainClass = Period.class, fieldName = "id", message = "Period does not exist")
+    @NotNull(message = "Period ID is required")
+    @ExistsInDatabase(domainClass = AcademicPeriod.class, fieldName = "id", message = "Period does not exist")
     private Long periodId;
 }

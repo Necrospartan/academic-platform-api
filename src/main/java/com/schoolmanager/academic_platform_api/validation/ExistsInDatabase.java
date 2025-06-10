@@ -11,7 +11,7 @@ import jakarta.validation.Payload;
 
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UniqueEmailValidator.class)
+@Constraint(validatedBy = ExistsInDatabaseValidator.class)
 @Documented
 public @interface ExistsInDatabase {
     String message() default "Value does not exist";
